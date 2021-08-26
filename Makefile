@@ -1,7 +1,7 @@
 appname := stock
 
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall
+CXXFLAGS := -std=c++2a -Wall
 
 srcfiles := $(shell find . -name "*.cpp")
 objects  := $(patsubst %.cpp, %.o, $(srcfiles))

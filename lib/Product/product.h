@@ -4,16 +4,21 @@
 #include <filesystem>
 #include <string>
 #include <fstream>
+#include "../utils.h"
+#include <random>
 
 using namespace std;
 namespace fs = filesystem;
 
 class Product {
+  private:
+    unsigned short int generate_uid();
+
   public:
     unsigned short int uid;
     string name;
     int quantity;
-    Product(unsigned short int _u, string _n, int _q);
+    Product(string _n, int _q);
 };
 
 namespace product_stock_files {
@@ -21,6 +26,7 @@ namespace product_stock_files {
     void get();
     void update();
     void remove();
+    set<unsigned short int> getAllUIDs();
 }
 
 #endif
