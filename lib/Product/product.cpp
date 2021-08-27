@@ -25,17 +25,37 @@ unsigned short int Product::generate_uid() {
 
 namespace product_stock_files {
     void create(Product p) {
-        fs::path path{ "products/" };
-        path /= p.name;
-        path /= "info.txt";
+        fs::path product_path{ "products/" };
+        product_path /= p.name;
+        product_path /= "info.txt";
+        
+        if(!fs_exists(product_path)) {
+            create_product(product_path, p);
+            update_stock(p);
+        }
+    }
 
+    void create_product(const fs::path& path, Product product) {
         fs::create_directories(path.parent_path());
 
-        string info_content = "UID:" + to_string(p.uid) + "\n" \
-                            + "QUANTITY:" + to_string(p.quantity) + "\n";
+        string product_content = "UID:" + to_string(product.uid) + "\n" \
+                               + "QUANTITY:" + to_string(product.quantity) + "\n";
 
-        ofstream ofs(path);
-        ofs << info_content; 
+        write_to_file(path, product_content);
+    }
+
+
+    void update_stock(Product product) {
+        fs::path stock_path{ "products/stock.txt" };
+        string stock_content = product.name + ":" + to_string(product.uid) + "\n";
+        write_to_file(stock_path, stock_content, true);
+    }
+
+
+    void write_to_file(const fs::path& p, string content, bool append) {
+        auto write_mode = append ? ios_base::app : ios_base::out;
+        ofstream ofs(p, write_mode);
+        ofs << content; 
         ofs.close();
     }
 
@@ -47,8 +67,16 @@ namespace product_stock_files {
     
     
     void remove(){}
-    
-    
+
+
+    bool fs_exists(const fs::path& p, fs::file_status s)
+    {
+        if(fs::status_known(s) ? fs::exists(s) : fs::exists(p))
+            return true;
+        return false;
+    }
+
+
     set<unsigned short int> getAllUIDs() {
         set<unsigned short int> result;
 
