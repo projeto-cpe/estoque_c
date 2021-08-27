@@ -3,11 +3,11 @@
 pra compilar:
 
 ```console
-$ g++ utils.cpp product.cpp main.cpp -std=c++17
+$ make
 ```
 
 pra rodar:
 
 ```console
-$ ./a.out
+$ ./stock
 ```
