@@ -1,2 +1,2 @@
-NAME:batata
-QUANTITY:30
+NAME:Abacate
+QUANTITY:50

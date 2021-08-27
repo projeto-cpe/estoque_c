@@ -1,13 +1,13 @@
 #include "utils.h"
 
-namespace split {
+namespace str_utils {
 
-    inline string substr(string s, int start, int end)
-    {
+    inline string substr(string s, int start, int end) {
         return s.substr(start, end - start);
     } 
 
-    vector<string> get_tokens(string s, string del)
+
+    vector<string> split(string s, string del)
     {
         int start = 0;
         int end = s.find(del);
@@ -24,7 +24,13 @@ namespace split {
 
         return result;
     }
+
+
+    string replace(string s, string old_value, string new_value) {
+        return s.replace(s.find(old_value), sizeof(old_value) - 1, new_value);
+    }
 }
+
 
 
 namespace file {
@@ -42,10 +48,20 @@ namespace file {
         return ss.str();
     }
 
+
     bool fs_exists(const fs::path& p, fs::file_status s)
     {
         if(fs::status_known(s) ? fs::exists(s) : fs::exists(p))
             return true;
         return false;
+    }
+
+
+    void write(const fs::path& p, string content, bool append)
+    {
+        auto write_mode = append ? ios_base::app : ios_base::out;
+        ofstream ofs(p, write_mode);
+        ofs << content; 
+        ofs.close();
     }
 }

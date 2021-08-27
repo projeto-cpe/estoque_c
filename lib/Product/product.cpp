@@ -42,7 +42,7 @@ namespace product_stock_files {
         if(!file::fs_exists(product_path))
         {
             create_product(product_path, p);
-            update_stock(p);
+            add_to_stock(p);
         }
     }
 
@@ -60,54 +60,64 @@ namespace product_stock_files {
 
         string product_content = build_product_info(product);
 
-        write_to_file(path, product_content);
+        file::write(path, product_content);
     }
 
 
-    void update_stock(Product product)
+    void add_to_stock(Product product)
     {
         fs::path stock_path{ "products/stock.txt" };
         string stock_content =  to_string(product.uid) + ":" + product.name + "\n";
-        write_to_file(stock_path, stock_content, true);
-    }
-
-
-    void write_to_file(const fs::path& p, string content, bool append)
-    {
-        auto write_mode = append ? ios_base::app : ios_base::out;
-        ofstream ofs(p, write_mode);
-        ofs << content; 
-        ofs.close();
+        file::write(stock_path, stock_content, true);
     }
 
 
     Product get(unsigned short int uid) {
         auto product_path = get_product_path(uid);
         if (file::fs_exists(product_path)) {
-            vector<string> tokens = split::get_tokens(file::read(product_path), "\n");
-            auto name_value = split::get_tokens(tokens[0], "NAME:")[1];
-            auto quantity_value = stoi(split::get_tokens(tokens[1], "QUANTITY:")[1]);
+            vector<string> tokens = str_utils::split(file::read(product_path), "\n");
+            auto name_value = str_utils::split(tokens[0], "NAME:")[1];
+            auto quantity_value = stoi(str_utils::split(tokens[1], "QUANTITY:")[1]);
             Product pr(name_value, quantity_value);
             return pr;
         }
     }
     
     
+    bool there_is_something_to_update(int new_quantity, string new_name) {
+        return new_quantity || new_name != "";
+    }
+
+
     void update(unsigned short int uid, int new_quantity, string new_name)
     {
-        if (new_quantity || new_name != "")
+        if (there_is_something_to_update(new_quantity, new_name))
         {
-            auto path = get_product_path(uid);
-
             auto product = get(uid);
             product.quantity = new_quantity ? new_quantity : product.quantity;
-            product.name = new_name != "" ? new_name : product.name;
-
+    
+            if (new_name != "") {
+                update_stock_product_name(uid, product.name, new_name);
+                product.name = new_name;
+            }
+    
             string product_content = build_product_info(product);
-            write_to_file(path, product_content);
+
+            auto path = get_product_path(uid);
+            file::write(path, product_content);
+
         }
     }
     
+
+    void update_stock_product_name(unsigned short int uid, string old_name, string new_name)
+    {
+        fs::path stock_path{ "products/stock.txt" };
+        string stock_content = file::read("products/stock.txt");
+        stock_content = str_utils::replace(stock_content, old_name, new_name);
+        file::write(stock_path, stock_content);
+    }
+
     
     void remove(){}
 
@@ -116,14 +126,14 @@ namespace product_stock_files {
     {
         set<unsigned short int> result;
 
-        vector<string> tokens = split::get_tokens(file::read("products/stock.txt"), "\n");
+        vector<string> tokens = str_utils::split(file::read("products/stock.txt"), "\n");
         
         for (auto &tok : tokens)
         {
             if (tok != "")
             {
-                auto product_uid = split::get_tokens(tok, ":");
-                int _uid = stoi(product_uid[1]);
+                auto product_uid = str_utils::split(tok, ":");
+                int _uid = stoi(product_uid[0]);
                 result.insert((unsigned short int)_uid);
             }
         }

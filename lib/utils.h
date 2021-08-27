@@ -7,17 +7,17 @@ using namespace std;
 
 namespace fs = filesystem;
 
-namespace split {
-
+namespace str_utils {
     inline string substr(string s, int start, int end);
-
-    vector<string> get_tokens(string s, string del);
+    vector<string> split(string s, string del);
+    string replace(string s, string old_value, string new_value);
 }
 
 
 namespace file {
     string read(const string path);
     bool fs_exists(const fs::path& p, fs::file_status s = fs::file_status{});
+    void write(const fs::path& p, string content, bool append = false);
 }
 
 

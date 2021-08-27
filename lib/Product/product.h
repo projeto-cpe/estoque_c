@@ -24,12 +24,13 @@ class Product {
 namespace product_stock_files {
     void create(Product p);
     void create_product(const fs::path& path, Product product);
-    void update_stock(Product product);
+    void add_to_stock(Product product);
+    bool there_is_something_to_update(int new_quantity, string new_name);
     string build_product_info(Product p);
     Product get(unsigned short int uid);
     void update(unsigned short int uid, int new_quantity=0, string new_name="");
+    void update_stock_product_name(unsigned short int uid, string old_name, string new_name);
     void remove();
-    void write_to_file(const fs::path& p, string content, bool append = false);
     set<unsigned short int> getAllUIDs();
 }
 
