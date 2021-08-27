@@ -25,10 +25,10 @@ namespace product_stock_files {
     void create(Product p);
     void create_product(const fs::path& path, Product product);
     void update_stock(Product product);
-    void get();
-    void update();
+    string build_product_info(Product p);
+    Product get(unsigned short int uid);
+    void update(unsigned short int uid, int new_quantity=0, string new_name="");
     void remove();
-    bool fs_exists(const fs::path& p, fs::file_status s = fs::file_status{});
     void write_to_file(const fs::path& p, string content, bool append = false);
     set<unsigned short int> getAllUIDs();
 }

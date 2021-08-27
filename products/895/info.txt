@@ -1,0 +1,2 @@
+NAME:batata
+QUANTITY:30

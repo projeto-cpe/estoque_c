@@ -2,7 +2,10 @@
 #define UTILS_H
 
 #include <bits/stdc++.h>
+
 using namespace std;
+
+namespace fs = filesystem;
 
 namespace split {
 
@@ -14,6 +17,7 @@ namespace split {
 
 namespace file {
     string read(const string path);
+    bool fs_exists(const fs::path& p, fs::file_status s = fs::file_status{});
 }
 
 
