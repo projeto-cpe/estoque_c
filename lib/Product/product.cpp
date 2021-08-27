@@ -35,11 +35,17 @@ namespace product_stock_files {
     }
 
 
+    bool product_exists_in_stock(const string product_name) {
+        string stock_content = file::read("products/stock.txt");
+        return (stock_content.find(product_name) != std::string::npos);
+    }
+
+
     void create(Product p)
     {
         auto product_path = get_product_path(p.uid);
         
-        if(!file::fs_exists(product_path))
+        if(!product_exists_in_stock(p.name))
         {
             create_product(product_path, p);
             add_to_stock(p);
