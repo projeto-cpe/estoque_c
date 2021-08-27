@@ -1,2 +1,2 @@
 NAME:Amendoim
-QUANTITY:5
+QUANTITY:25

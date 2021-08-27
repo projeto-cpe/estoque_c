@@ -1,2 +1,0 @@
-NAME:Abacate
-QUANTITY:50

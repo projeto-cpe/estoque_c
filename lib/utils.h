@@ -11,6 +11,7 @@ namespace str_utils {
     inline string substr(string s, int start, int end);
     vector<string> split(string s, string del);
     string replace(string s, string old_value, string new_value);
+    bool find(string s, string f);
 }
 
 

@@ -37,7 +37,7 @@ namespace product_stock_files {
 
     bool product_exists_in_stock(const string product_name) {
         string stock_content = file::read("products/stock.txt");
-        return (stock_content.find(product_name) != std::string::npos);
+        return str_utils::find(stock_content, product_name);
     }
 
 
@@ -125,20 +125,39 @@ namespace product_stock_files {
     }
 
     
-    void remove(){}
+    void remove(unsigned short int uid)
+    {
+        auto product_path = get_product_path(uid);
+        if (file::fs_exists(product_path)) {
+            string suid = to_string(uid);
+            fs::remove_all("products/" + suid);
+
+            vector<string> lines = str_utils::split(file::read("products/stock.txt"), "\n");
+            string result = "";
+            for (auto &l : lines)
+            {
+                if (!str_utils::find(l, suid) && l != "") {
+                    result += l + '\n';
+                }
+            }
+
+            fs::path stock_path{ "products/stock.txt" };
+            file::write(stock_path, result);
+        }
+    }
 
 
     set<unsigned short int> getAllUIDs()
     {
         set<unsigned short int> result;
 
-        vector<string> tokens = str_utils::split(file::read("products/stock.txt"), "\n");
+        vector<string> lines = str_utils::split(file::read("products/stock.txt"), "\n");
         
-        for (auto &tok : tokens)
+        for (auto &l : lines)
         {
-            if (tok != "")
+            if (l != "")
             {
-                auto product_uid = str_utils::split(tok, ":");
+                auto product_uid = str_utils::split(l, ":");
                 int _uid = stoi(product_uid[0]);
                 result.insert((unsigned short int)_uid);
             }

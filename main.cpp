@@ -5,8 +5,13 @@
 using namespace std;
 
 int main() {
-    Product pr("Amendoim", 5);
-    product_stock_files::create(pr);
+    // Product pr("Abacate", 5);
+    // product_stock_files::create(pr);
+    // Product pr2("Cheetos", 15);
+    // product_stock_files::create(pr2);
+    // Product pr3("Amendoim", 25);
+    // product_stock_files::create(pr3);
+    // product_stock_files::remove(986);
     // product_stock_files::update(895, 50);
     // string xd = "Abacate";
     // product_stock_files::update(895, 0, xd);
