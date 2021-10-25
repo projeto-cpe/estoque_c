@@ -1,7 +1,7 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
-#include <filesystem>
+#include <filesystem> 
 #include <string>
 #include <fstream>
 #include "../utils.h"
@@ -33,6 +33,7 @@ namespace product_stock_files {
     void update_stock_product_name(unsigned short int uid, string old_name, string new_name);
     void remove(unsigned short int uid);
     set<unsigned short int> getAllUIDs();
+    
 }
 
 #endif

@@ -27,7 +27,7 @@ namespace str_utils {
 
 
     string replace(string s, string old_value, string new_value) {
-        return s.replace(s.find(old_value), sizeof(old_value) - 1, new_value);
+        return regex_replace(s, std::regex(old_value), new_value);
     }
 
 
