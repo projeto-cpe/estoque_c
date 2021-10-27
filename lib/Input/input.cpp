@@ -53,10 +53,23 @@ void user_interactions(){
         auto x = product_stock_files::get(cod);
         //tira a quantidade vendida da quantidade anterior
         int atual = x.quantity - quant;
-        //sobrescreve a nova quantidade na anterior 
-        product_stock_files::update(cod, atual);
-        enter(choice);
-
+        //sobrescreve a nova quantidade na anterior
+        if (atual < 0){
+            cout << "Você inseriu uma quantidade maior do que a disponível no estoque. (1 - Tentar novamente; 2 - Sair)\n";
+            cin >> entry;
+            if (entry == 1){
+                user_interactions();
+            }
+            if (entry == 2){
+                cout << "Volte sempre!\n";
+                return;
+            }
+            user_interactions();
+        }
+        else{
+            product_stock_files::update(cod, atual);
+            enter(choice);
+        }
         
     }
 

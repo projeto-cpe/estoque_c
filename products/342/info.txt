@@ -1,0 +1,2 @@
+NAME:Coca-cola
+QUANTITY:6

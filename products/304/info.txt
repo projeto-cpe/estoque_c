@@ -1,2 +1,2 @@
 NAME:Abacates
-QUANTITY:9
+QUANTITY:5

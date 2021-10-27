@@ -1,4 +1,9 @@
-304:Abacateso
+304:Abacates
 514:Sanduiche natural
-948:Toddy
+948:Achocolatado
 316:Repolho
+128:Cerveja
+512:Jujubas
+517:Coentro
+518:Biscoito
+342:Coca-cola
